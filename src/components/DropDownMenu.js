@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 // import {Controller} from 'react-hook-form';
 import {Picker} from "@react-native-picker/picker";
-// import { Button, Menu, Divider, Provider } from 'react-native-paper';
 
-const DropDownMenu = ({name}) => {
+const DropDownMenu = ({
+    name,
+    }) => {
     const [Enable , setEnable]  = useState("");
     return (
         <View style={styles.container}>
