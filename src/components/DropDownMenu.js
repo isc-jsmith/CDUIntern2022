@@ -5,8 +5,16 @@ import {Picker} from "@react-native-picker/picker";
 
 const DropDownMenu = ({
     name,
+    itemList,
     }) => {
     const [Enable , setEnable]  = useState("");
+
+    const renderItemList = () => {
+        return itemList.map((item) => {
+            return <Picker.Item label={item.label} value={item.value} />
+        })
+    }
+    
     return (
         <View style={styles.container}>
             <Text style={{fontWeight: 'bold', fontSize: 16}}>{name}</Text>
@@ -16,9 +24,10 @@ const DropDownMenu = ({
                 mode={"dialog"}
                 onValueChange={(itemValue) => setEnable(itemValue)}
             >
-                <Picker.Item label="A" value="A" />
+                {/* <Picker.Item label="A" value="A" />
                 <Picker.Item label="B" value="B" />
-                <Picker.Item label="C" value="C" />
+                <Picker.Item label="C" value="C" /> */}
+                {renderItemList()}
             </Picker>
         </View>
     );

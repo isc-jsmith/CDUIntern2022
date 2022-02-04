@@ -51,7 +51,14 @@ const VitalSignInput = () => {
         <View style={{height: 430, padding:20, width: "110%"}} >
           <ScrollView persistentScrollbar={true}>
             
-            <DropDownMenu name="Consciousness"/>
+            {/* <DropDownMenu name="Consciousness"/> */}
+            <DropDownMenu 
+              name="Consciousnes"
+              itemList={[{label:"N/A", value:""},
+                        {label:"Level1", value:"Level1"},
+                        {label:"Level2", value:"Level2"},
+                        {label:"Level3", value:"Level3"}]}
+            />
 
             <CustomInput
               name="Respiratory Rate (bpm)"
@@ -79,7 +86,13 @@ const VitalSignInput = () => {
               }}
             />
 
-            <DropDownMenu name="Oxygen Device"/>
+            <DropDownMenu 
+              name="Oxygen Device"
+              itemList={[{label:"N/A", value:""},
+                        {label:"Device1", value:"Device1"},
+                        {label:"Device2", value:"Device2"},
+                        {label:"Device3", value:"Device3"}]}
+            />
 
             <CustomInput
               name="Heart Rate (bpm)"
