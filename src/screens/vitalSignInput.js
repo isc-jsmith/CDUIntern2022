@@ -54,16 +54,17 @@ const VitalSignInput = () => {
             {/* <DropDownMenu name="Consciousness"/> */}
             <DropDownMenu 
               name="Consciousnes"
-              itemList={[{label:"N/A", value:""},
-                        {label:"Level1", value:"Level1"},
-                        {label:"Level2", value:"Level2"},
-                        {label:"Level3", value:"Level3"}]}
+              itemList={[{label:"N/A", value: ""},
+                        {label:"Level1" ,value: "Level1"},
+                        {label:"Level2" ,value: "Level2"},
+                        {label:"Level3" ,value: "Level3"}]}
             />
 
             <CustomInput
               name="Respiratory Rate (bpm)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: RESPIRATORY_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -73,6 +74,7 @@ const VitalSignInput = () => {
               name="Sp02 (%)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: SPO2_REGEX, message: 'Invalid Value'},
               }}
@@ -81,6 +83,7 @@ const VitalSignInput = () => {
               name="Oxygen (lpm)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: OXYGEN_REGEX, message: 'Invalid Value'},
               }}
@@ -94,10 +97,12 @@ const VitalSignInput = () => {
                         {label:"Device3", value:"Device3"}]}
             />
 
+
             <CustomInput
               name="Heart Rate (bpm)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: HEART_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -106,6 +111,7 @@ const VitalSignInput = () => {
               name="Systolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: SYSTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -114,6 +120,7 @@ const VitalSignInput = () => {
               name="Diastolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: DIASTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -122,6 +129,7 @@ const VitalSignInput = () => {
               name="Temperature (°C)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: TEMPERATURE_REGEX, message: 'Invalid Value'},
               }}
@@ -130,6 +138,7 @@ const VitalSignInput = () => {
               name="Blood Glucose (mmol/L)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: BLOOD_GLUCOSE_REGEX, message: 'Invalid Value'},
               }}
@@ -138,6 +147,7 @@ const VitalSignInput = () => {
               name="Pain"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: PAIN_REGEX, message: 'Invalid Value'},
               }}
@@ -146,6 +156,7 @@ const VitalSignInput = () => {
               name="Weight (kg)"
               control={control}
               placeholder="... type here..."
+              referenceRange={[10,25]}
               rules={{
                 pattern: {value: WEIGHT_REGEX, message: 'Invalid Value'},
               }}

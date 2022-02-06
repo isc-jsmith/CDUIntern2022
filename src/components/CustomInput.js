@@ -8,6 +8,7 @@ const CustomInput = ({
   rules = {},
   placeholder,
   secureTextEntry,
+  referenceRange = [],
 }) => {
   return (
     <Controller
@@ -27,12 +28,15 @@ const CustomInput = ({
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
-              style={styles.input}
+              // inputStyle={{color: 'red'}} 
+              // style={styles.input}
+              // style accroding to if value in referenceRange
+              style={value == 0 || (value >= referenceRange[0] && value <= referenceRange[1]) ? styles.input : styles.inputOutRange}
               secureTextEntry={secureTextEntry}
             />
           </View>
           {error && (
-            <Text style={{color: 'red', alignSelf: 'stretch'}}>{error.message || 'Error'}</Text>
+            <Text style={{color: 'red', fontStyle: 'italic', alignSelf: 'stretch'}}>{error.message || 'Error'}</Text>
           )}
         </>
       )}
@@ -53,7 +57,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 15,
   },
-  input: {},
+  input: {
+    // backgroundColor: "yellow",
+  },
+
+  // How to change Text Color in TextInput ???
+
+  inputOutRange:{
+    backgroundColor: "#f7eb07",
+    color: "blue",
+  }
 });
 
 export default CustomInput;
