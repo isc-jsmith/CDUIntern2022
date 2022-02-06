@@ -31,8 +31,9 @@ const CustomInput = ({
               // inputStyle={{color: 'red'}} 
               // style={styles.input}
               // style accroding to if value in referenceRange
-              style={value == 0 || (value >= referenceRange[0] && value <= referenceRange[1]) ? styles.input : styles.inputOutRange}
+              style={(value == 0 || value == null || (value >= referenceRange[0] && value <= referenceRange[1])) ? styles.input : styles.inputOutRange}
               secureTextEntry={secureTextEntry}
+              keyboardType = 'numeric'
             />
           </View>
           {error && (
