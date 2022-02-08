@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, MaskedViewComponent} from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+import CustomPicker from '../components/CustomPicker';
 import DropDownMenu from '../components/DropDownMenu';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
@@ -23,18 +24,20 @@ const VitalSignInput = () => {
   const {control, handleSubmit, watch} = useForm();
   const navigation = useNavigation();
 
-  const onSkipVitalSignPress = () => {
-    alert("Skip Vital Sign Update");
-  };
-
   const onScanAgainPressed = () => {
     navigation.navigate('Scan');
   }; 
 
-	const onUpdatePressed = () => {
-		navigation.navigate('ObsnConfirmation');
-  }
 
+  // will send the data as a Json 
+  // From here to the 'ObsnConfirmation' Screen using navigation + route.params (in the 'ObsnConfirmation' Screen)
+  // params-route: https://reactnavigation.org/docs/params/
+  const onUpdatePressed = (data) => {
+		navigation.navigate('ObsnConfirmation', {
+      dataKey : data
+    });
+    console.log(data);
+  }
 
 
   return (
@@ -51,10 +54,18 @@ const VitalSignInput = () => {
         <View style={{height: 430, padding:20, width: "110%"}} >
           <ScrollView persistentScrollbar={true}>
             
-            {/* <DropDownMenu name="Consciousness"/> */}
-            <DropDownMenu 
+            {/* <DropDownMenu 
               name="Consciousnes"
-              itemList={[{label:"N/A", value: ""},
+              itemList={[{label:"Select", value: ""},
+                        {label:"Level1" ,value: "Level1"},
+                        {label:"Level2" ,value: "Level2"},
+                        {label:"Level3" ,value: "Level3"}]}
+            /> */}
+
+            <CustomPicker
+              name="Consciousness"
+              control={control}
+              itemList={[{label:"Select", value: ""},
                         {label:"Level1" ,value: "Level1"},
                         {label:"Level2" ,value: "Level2"},
                         {label:"Level3" ,value: "Level3"}]}
@@ -64,7 +75,7 @@ const VitalSignInput = () => {
               name="Respiratory Rate (bpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[10, 25]}
               rules={{
                 pattern: {value: RESPIRATORY_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -74,7 +85,7 @@ const VitalSignInput = () => {
               name="Sp02 (%)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[95, 100]}
               rules={{
                 pattern: {value: SPO2_REGEX, message: 'Invalid Value'},
               }}
@@ -83,26 +94,26 @@ const VitalSignInput = () => {
               name="Oxygen (lpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[4, 12]}
               rules={{
                 pattern: {value: OXYGEN_REGEX, message: 'Invalid Value'},
               }}
             />
 
-            <DropDownMenu 
+            <CustomPicker 
               name="Oxygen Device"
-              itemList={[{label:"N/A", value:""},
+              control={control}
+              itemList={[{label:"Select", value:""},
                         {label:"Device1", value:"Device1"},
                         {label:"Device2", value:"Device2"},
                         {label:"Device3", value:"Device3"}]}
             />
 
-
             <CustomInput
               name="Heart Rate (bpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[50, 120]}
               rules={{
                 pattern: {value: HEART_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -111,7 +122,7 @@ const VitalSignInput = () => {
               name="Systolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[100, 180]}
               rules={{
                 pattern: {value: SYSTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -120,7 +131,7 @@ const VitalSignInput = () => {
               name="Diastolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[60, 90]}
               rules={{
                 pattern: {value: DIASTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -129,7 +140,7 @@ const VitalSignInput = () => {
               name="Temperature (°C)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[36.1, 37.1]}
               rules={{
                 pattern: {value: TEMPERATURE_REGEX, message: 'Invalid Value'},
               }}
@@ -138,7 +149,7 @@ const VitalSignInput = () => {
               name="Blood Glucose (mmol/L)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
+              referenceRange={[4.0, 8.0]}
               rules={{
                 pattern: {value: BLOOD_GLUCOSE_REGEX, message: 'Invalid Value'},
               }}
@@ -147,7 +158,6 @@ const VitalSignInput = () => {
               name="Pain"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
               rules={{
                 pattern: {value: PAIN_REGEX, message: 'Invalid Value'},
               }}
@@ -172,6 +182,7 @@ const VitalSignInput = () => {
 
         <CustomButton
           text="Update"
+          // handleSubmit: receive FORM data
           onPress={handleSubmit(onUpdatePressed)}
         />
 
