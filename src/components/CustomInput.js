@@ -14,6 +14,8 @@ const CustomInput = ({
     <Controller
       control={control}
       name={name}
+      // // add this because rules not working ?
+      // defaultValue=""
       rules={rules}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
         <>
@@ -29,9 +31,10 @@ const CustomInput = ({
               onBlur={onBlur}
               placeholder={placeholder}
               // inputStyle={{color: 'red'}} 
-              // style={styles.input}
+              //style={styles.input}
               // style accroding to if value in referenceRange
-              style={(value == 0 || value == null || (value >= referenceRange[0] && value <= referenceRange[1])) ? styles.input : styles.inputOutRange}
+              // style={(value == 0 || value == null || (value >= referenceRange[0] && value <= referenceRange[1])) ? styles.input : styles.inputOutRange}
+              style={(value < referenceRange[0] || value > referenceRange[1]) ? styles.inputOutRange : styles.input}
               secureTextEntry={secureTextEntry}
               keyboardType = 'numeric'
             />
@@ -59,14 +62,12 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   input: {
-    // backgroundColor: "yellow",
+    color: "blue",
   },
 
-  // How to change Text Color in TextInput ???
-
   inputOutRange:{
-    backgroundColor: "#f7eb07",
-    color: "blue",
+    // backgroundColor: "#f7eb07",
+    color: "red",
   }
 });
 

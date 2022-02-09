@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, ScrollView, MaskedViewComponent} from 'react-nat
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
-import DropDownMenu from '../components/DropDownMenu';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
 
@@ -19,6 +18,17 @@ const PAIN_REGEX = /^[0-9]{1,2}[:.,-]?$/;
 const WEIGHT_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
 
 
+// Reference Range
+const RespiratoryRateRange = [10, 25];
+const SpO2Range = [95, 100];
+const HeartRateRange = [50, 120];
+const SystolicRange = [100, 180];
+const DiastolicRange = [60, 90];
+const TemperatureRange = [36.1, 37.1];
+const BloodGlucoseRange = [4.0, 8.0];
+const OxygenLPMRange = [4, 12];
+
+
 
 const VitalSignInput = () => {
   const {control, handleSubmit, watch} = useForm();
@@ -29,15 +39,16 @@ const VitalSignInput = () => {
   }; 
 
 
-  // will send the data as a Json 
-  // From here to the 'ObsnConfirmation' Screen using navigation + route.params (in the 'ObsnConfirmation' Screen)
-  // params-route: https://reactnavigation.org/docs/params/
+  // ***will send the data as a Json 
+  // ***From here to the 'ObsnConfirmation' Screen using navigation + route.params (in the 'ObsnConfirmation' Screen)
+  // ***params-route: https://reactnavigation.org/docs/params/
   const onUpdatePressed = (data) => {
 		navigation.navigate('ObsnConfirmation', {
       dataKey : data
     });
     console.log(data);
   }
+
 
 
   return (
@@ -47,7 +58,7 @@ const VitalSignInput = () => {
         <Text>Name: Marcus AGUIRRE</Text>
         <Text>DOB: 04/07/1969 Age: 52y6mth30d</Text>
         <Text></Text>
-        {/* Just harcode time here. Once connected to TrakCare, can pull this info */}
+        {/* ***Just harcode time here. Once connected to TrakCare, can pull this info */}
         <Text style={{alignSelf: 'flex-end'}}>...icons...</Text>
         <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
 
@@ -75,7 +86,7 @@ const VitalSignInput = () => {
               name="Respiratory Rate (bpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10, 25]}
+              referenceRange={RespiratoryRateRange}
               rules={{
                 pattern: {value: RESPIRATORY_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -85,7 +96,7 @@ const VitalSignInput = () => {
               name="Sp02 (%)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[95, 100]}
+              referenceRange={SpO2Range}
               rules={{
                 pattern: {value: SPO2_REGEX, message: 'Invalid Value'},
               }}
@@ -94,7 +105,7 @@ const VitalSignInput = () => {
               name="Oxygen (lpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[4, 12]}
+              referenceRange={OxygenLPMRange}
               rules={{
                 pattern: {value: OXYGEN_REGEX, message: 'Invalid Value'},
               }}
@@ -113,7 +124,7 @@ const VitalSignInput = () => {
               name="Heart Rate (bpm)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[50, 120]}
+              referenceRange={HeartRateRange}
               rules={{
                 pattern: {value: HEART_RATE_REGEX, message: 'Invalid Value'},
               }}
@@ -122,7 +133,7 @@ const VitalSignInput = () => {
               name="Systolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[100, 180]}
+              referenceRange={SystolicRange}
               rules={{
                 pattern: {value: SYSTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -131,7 +142,7 @@ const VitalSignInput = () => {
               name="Diastolic BP (mmHg)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[60, 90]}
+              referenceRange={DiastolicRange}
               rules={{
                 pattern: {value: DIASTOLIC_REGEX, message: 'Invalid Value'},
               }}
@@ -140,7 +151,7 @@ const VitalSignInput = () => {
               name="Temperature (°C)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[36.1, 37.1]}
+              referenceRange={TemperatureRange}
               rules={{
                 pattern: {value: TEMPERATURE_REGEX, message: 'Invalid Value'},
               }}
@@ -149,7 +160,7 @@ const VitalSignInput = () => {
               name="Blood Glucose (mmol/L)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[4.0, 8.0]}
+              referenceRange={BloodGlucoseRange}
               rules={{
                 pattern: {value: BLOOD_GLUCOSE_REGEX, message: 'Invalid Value'},
               }}
@@ -166,7 +177,6 @@ const VitalSignInput = () => {
               name="Weight (kg)"
               control={control}
               placeholder="... type here..."
-              referenceRange={[10,25]}
               rules={{
                 pattern: {value: WEIGHT_REGEX, message: 'Invalid Value'},
               }}
@@ -182,7 +192,7 @@ const VitalSignInput = () => {
 
         <CustomButton
           text="Update"
-          // handleSubmit: receive FORM data
+          // ***handleSubmit: receive FORM data
           onPress={handleSubmit(onUpdatePressed)}
         />
 
