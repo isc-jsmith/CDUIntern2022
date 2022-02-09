@@ -5,6 +5,7 @@ import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const RESPIRATORY_RATE_REGEX = /^[0-9]{1,2}[:.,-]?$/;
 const SPO2_REGEX = /^[0-9]{2,3}[:.,-]?$/;
@@ -59,7 +60,7 @@ const VitalSignInput = () => {
         <Text>DOB: 04/07/1969 Age: 52y6mth30d</Text>
         <Text></Text>
         {/* ***Just harcode time here. Once connected to TrakCare, can pull this info */}
-        <Text style={{alignSelf: 'flex-end'}}>...icons...</Text>
+        <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
         <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
 
         <View style={{height: 430, padding:20, width: "110%"}} >

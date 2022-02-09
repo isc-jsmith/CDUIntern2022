@@ -5,6 +5,8 @@ import CustomButton from '../components/CustomButton';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
 import { DataTable } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 
 const ObsnConfirmation = ({route}) => {
@@ -35,8 +37,6 @@ const ObsnConfirmation = ({route}) => {
   const BloodGlucoseRange = [4.0, 8.0];
   const OxygenLPMRange = [4, 12];
 
-  const [respiratoryRate, setRespiratoryrate] = useState(myObj["Respiratory Rate (bpm)"]);
-  console.log(myObj["Respiratory Rate (bpm)"]);
 
   const checkInRange = (value, range) => {
     if (value >= range[0] && value <= range[1]){
@@ -54,7 +54,7 @@ const ObsnConfirmation = ({route}) => {
         <Text>Name: Marcus AGUIRRE</Text>
         <Text>DOB: 04/07/1969 Age: 52y6mth30d</Text>
         <Text></Text>
-        <Text style={{alignSelf: 'flex-end'}}>...icons...</Text>
+        <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
         <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
 
         <View style={{height: 480, padding:20, width: "110%"}} >
@@ -73,7 +73,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Consciousness"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -84,7 +84,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Respiratory Rate (bpm)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -94,7 +94,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Sp02 (%)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -104,7 +104,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Oxygen (lpm)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -114,7 +114,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Oxygen Device"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -124,7 +124,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Heart Rate (bpm)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -134,7 +134,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Systolic BP (mmHg)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -144,7 +144,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Diastolic BP (mmHg)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -154,7 +154,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Temperature (°C)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -164,7 +164,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Blood Glucose (mmol/L)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -174,7 +174,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Pain"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
 
               <DataTable.Row>
@@ -184,7 +184,7 @@ const ObsnConfirmation = ({route}) => {
                     {myObj["Weight (kg)"]}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>Edit</DataTable.Cell>
+                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
               </DataTable.Row>
               
             </DataTable>  
