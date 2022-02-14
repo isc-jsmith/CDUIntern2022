@@ -1,26 +1,59 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView, TextInput, MaskedViewComponent} from 'react-native';
 import CustomInput from '../components/CustomInput';
+import CustomInput1 from '../components/CustomInput1';
+import CustomInput2 from '../components/CustomInput2';
+import CustomPicker1 from '../components/CustomPicker1';
 import CustomButton from '../components/CustomButton';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
-import { DataTable } from 'react-native-paper';
+import { DataTable, List } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+const RESPIRATORY_RATE_REGEX = /^[0-9]{1,2}[:.,-]?$/;
+const SPO2_REGEX = /^[0-9]{2,3}[:.,-]?$/;
+const OXYGEN_REGEX = /^[0-9]{1,2}[:.,-]?$/;
+const HEART_RATE_REGEX = /^[0-9]{2,3}[:.,-]?$/;
+const SYSTOLIC_REGEX = /^[0-9]{2,3}[:.,-]?$/;
+const DIASTOLIC_REGEX = /^[0-9]{2,3}[:.,-]?$/;
+const TEMPERATURE_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
+const BLOOD_GLUCOSE_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
+const PAIN_REGEX = /^[0-9]{1,2}[:.,-]?$/;
+const WEIGHT_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
+const NOTE_REGEX = /^[ A-Za-z0-9_@./#&+-]*$/;
+
+
+// Reference Range
+const RespiratoryRateRange = [10, 25];
+const SpO2Range = [95, 100];
+const HeartRateRange = [50, 120];
+const SystolicRange = [100, 180];
+const DiastolicRange = [60, 90];
+const TemperatureRange = [36.1, 37.1];
+const BloodGlucoseRange = [4.0, 8.0];
+const OxygenLPMRange = [4, 12];
+
+
+
 
 
 
 const ObsnConfirmation = ({route}) => {
-  const {control, handleSubmit, watch} = useForm();
-  // const pwd = watch('password');
+  const {control, handleSubmit} = useForm();
   const navigation = useNavigation();
 
  
-  const onUpdatePressed = () => {
+  const onUpdatePressed = (data) => {
+    console.log(data);
     alert("Vital Signs updated");
   }; 
 
-  const onSkipVitalSignPress = () => {
-    alert("Skip Vital Sign Update");
+  // pass the param/ Function when navigate from 'Observation' to 'VitalSign'
+  const onEditPressed = () => {
+    navigation.navigate('VitalSign',{
+      functionKey: console.log(" function from Ocallbs"),
+      otherFunctionKey: console.log("another funct from Obs")
+    });
   };
 
   /* Use JSON.stringify to render Object */
@@ -28,24 +61,8 @@ const ObsnConfirmation = ({route}) => {
   const dataFromEntry = JSON.stringify(route.params.dataKey);
   const myObj = JSON.parse(dataFromEntry)
 
-  const RespiratoryRateRange = [10, 25];
-  const SpO2Range = [95, 100];
-  const HeartRateRange = [50, 120];
-  const SystolicRange = [100, 180];
-  const DiastolicRange = [60, 90];
-  const TemperatureRange = [36.1, 37.1];
-  const BloodGlucoseRange = [4.0, 8.0];
-  const OxygenLPMRange = [4, 12];
 
 
-  const checkInRange = (value, range) => {
-    if (value >= range[0] && value <= range[1]){
-      return true
-    }
-    else {
-      return false
-    }
-  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,137 +74,181 @@ const ObsnConfirmation = ({route}) => {
         <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
         <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
 
-        <View style={{height: 480, padding:20, width: "110%"}} >
+        <View style={{height: 480, padding:20, paddingBottom:30, width: "110%"}} >
           <ScrollView persistentScrollbar={true}>
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title style={styles.tableFirstColumn}><Text style={{fontWeight:"bold", fontSize:14}}>Vital Sign</Text></DataTable.Title>
-                <DataTable.Title style={styles.tableSecondColumn}><Text style={{fontWeight:"bold", fontSize:14}}>Value</Text></DataTable.Title>
-                <DataTable.Title ><Text style={{fontWeight:"bold", fontSize:14}}>Button</Text></DataTable.Title>
-              </DataTable.Header>
+            <View style={[styles.container,]}>
+              <View style={styles.header}><Text style={{fontStyle:'italic' ,fontWeight:"bold", fontSize:16}}>Vital Sign</Text></View>
+              <View style={[styles.valueheader]}><Text style={{fontStyle:'italic', fontWeight:"bold", fontSize:16, paddingLeft: 15}}>Value</Text></View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Consciousness</DataTable.Cell>
-                <DataTable.Cell style={[styles.tableSecondColumn, styles.datatext]}>
-                  <Text style= {{color: 'blue' }}>
-                    {myObj["Consciousness"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Consciousness</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomPicker1
+                  name="Consciousness"
+                  defaultValue = {myObj["Consciousness"]}
+                  control={control}
+                  itemList={[{label:"Select", value: ""},
+                            {label:"Level1" ,value: "Level1"},
+                            {label:"Level2" ,value: "Level2"},
+                            {label:"Level3" ,value: "Level3"}]}
+                />
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Respiratory Rate (bpm)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  {/* *** style value accroding to in Range or not */}
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Respiratory Rate (bpm)"]), RespiratoryRateRange ) ? 'blue' : 'red'}}>
-                    {myObj["Respiratory Rate (bpm)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Respiratory Rate (bpm)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Respiratory Rate (bpm)"
+                  defaultValue={myObj["Respiratory Rate (bpm)"]}
+                  referenceRange={RespiratoryRateRange}
+                  rules={{
+                    pattern: {value: RESPIRATORY_RATE_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Sp02 (%)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Sp02 (%)"]), SpO2Range ) ? 'blue' : 'red'}}>
-                    {myObj["Sp02 (%)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Sp02 (%)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Sp02 (%)" 
+                  defaultValue={myObj["Sp02 (%)"]}
+                  referenceRange={SpO2Range}
+                  rules={{
+                    pattern: {value: SPO2_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Oxygen (lpm)</DataTable.Cell>
-                <DataTable.Cell style={ styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Oxygen (lpm)"]), OxygenLPMRange ) ? 'blue' : 'red'}}>
-                    {myObj["Oxygen (lpm)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Oxygen (lpm)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Oxygen (lpm)" 
+                  defaultValue={myObj["Oxygen (lpm)"]}
+                  referenceRange={OxygenLPMRange}
+                  rules={{
+                    pattern: {value: OXYGEN_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Oxygen Device</DataTable.Cell>
-                <DataTable.Cell style={[styles.tableSecondColumn, styles.datatext]}>
-                  <Text style= {{color: 'blue' }}>
-                    {myObj["Oxygen Device"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Oxygen Device</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomPicker1 
+                  name="Oxygen Device"
+                  defaultValue = {myObj["Oxygen Device"]}
+                  control={control}
+                  itemList={[{label:"Select", value:""},
+                            {label:"Device1", value:"Device1"},
+                            {label:"Device2", value:"Device2"},
+                            {label:"Device3", value:"Device3"}]}
+                />
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Heart Rate (bpm)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Heart Rate (bpm)"]), HeartRateRange ) ? 'blue' : 'red'}}>
-                    {myObj["Heart Rate (bpm)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Heart Rate (bpm)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Heart Rate (bpm)" 
+                  defaultValue={myObj["Heart Rate (bpm)"]}
+                  referenceRange={HeartRateRange}
+                  rules={{
+                    pattern: {value: HEART_RATE_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Systolic BP (mmHg)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Systolic BP (mmHg)"]), SystolicRange ) ? 'blue' : 'red'}}>
-                    {myObj["Systolic BP (mmHg)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Systolic BP (mmHg)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Systolic BP (mmHg)" 
+                  defaultValue={myObj["Systolic BP (mmHg)"]}
+                  referenceRange={SystolicRange}
+                  rules={{
+                    pattern: {value: SYSTOLIC_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Diastolic BP (mmHg)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Diastolic BP (mmHg)"]), DiastolicRange ) ? 'blue' : 'red'}}>
-                    {myObj["Diastolic BP (mmHg)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Diastolic BP (mmHg)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Diastolic BP (mmHg)" 
+                  defaultValue={myObj["Diastolic BP (mmHg)"]}
+                  referenceRange={DiastolicRange}
+                  rules={{
+                    pattern: {value: DIASTOLIC_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Temperature (°C)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Temperature (°C)"]), TemperatureRange ) ? 'blue' : 'red'}}>
-                    {myObj["Temperature (°C)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Temperature (°C)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Temperature (°C)" 
+                  defaultValue={myObj["Temperature (°C)"]}
+                  referenceRange={TemperatureRange}
+                  rules={{
+                    pattern: {value: TEMPERATURE_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Blood Glucose (mmol/L)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: checkInRange(parseFloat(myObj["Blood Glucose (mmol/L)"]), BloodGlucoseRange ) ? 'blue' : 'red'}}>
-                    {myObj["Blood Glucose (mmol/L)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Blood Glucose (mmol/L)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Blood Glucose (mmol/L)" 
+                  defaultValue={myObj["Blood Glucose (mmol/L)"]}
+                  referenceRange={BloodGlucoseRange}
+                  rules={{
+                    pattern: {value: BLOOD_GLUCOSE_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Pain</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: 'blue' }}>
-                    {myObj["Pain"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
+              <View style={styles.item}><Text style={styles.label}>Pain</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Pain" 
+                  defaultValue={myObj["Pain"]}
+                  rules={{
+                    pattern: {value: PAIN_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
 
-              <DataTable.Row>
-                <DataTable.Cell style={styles.tableFirstColumn}>Weight (kg)</DataTable.Cell>
-                <DataTable.Cell style={styles.tableSecondColumn}>
-                  <Text style= {{color: 'blue'}}>
-                    {myObj["Weight (kg)"]}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell><Icon name="create-outline" size={23} color="#13a5a3"/></DataTable.Cell>
-              </DataTable.Row>
-              
-            </DataTable>  
+              <View style={styles.item}><Text style={styles.label}>Weight (kg)</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Weight (kg)" 
+                  defaultValue={myObj["Weight (kg)"]}
+                  rules={{
+                    pattern: {value: WEIGHT_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
+
+              <View style={styles.item}><Text style={styles.label}>Note</Text></View>
+              <View style={styles.itemvalue}>
+                <CustomInput1
+                  control={control} 
+                  name="Note" 
+                  defaultValue={myObj["Note"]}
+                  rules={{
+                    pattern: {value: NOTE_REGEX, message: 'Invalid Value'},
+                  }}
+                /> 
+              </View>
+
+             
+            </View>
+
           </ScrollView>
         </View>
 
@@ -196,11 +257,45 @@ const ObsnConfirmation = ({route}) => {
           text="Confirm"
           onPress={handleSubmit(onUpdatePressed)}
         />
-        
+
       </View>
     </ScrollView>
   );
 };
+
+// const styles = StyleSheet.create({
+//   root: {
+//     alignItems: 'center',
+//     padding: 20,
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     color: '#051C60',
+//     margin: 10,
+//   },
+//   text: {
+//     color: 'gray',
+//     marginVertical: 10,
+//   },
+//   link: {
+//     color: '#FDB075',
+//   },
+//   textRight: {
+//     color: 'gray',
+//     textAlign: 'right',
+//   },
+//   tableFirstColumn: {
+//     flex: 3,
+//   },
+//   tableSecondColumn: {
+//     flex: 2,
+//   },
+//   datatext: {
+//     color: 'blue'
+//   }
+// });
+
 
 const styles = StyleSheet.create({
   root: {
@@ -213,26 +308,36 @@ const styles = StyleSheet.create({
     color: '#051C60',
     margin: 10,
   },
-  text: {
-    color: 'gray',
-    marginVertical: 10,
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start' // if you want to fill rows left to right
   },
-  link: {
-    color: '#FDB075',
+  item: {
+    width: '60%', // is 50% of container width
+    borderTopColor: 'gray',
+    borderTopWidth: 0.3,
   },
-  textRight: {
-    color: 'gray',
-    textAlign: 'right',
+  itemvalue: {
+    width: '40%', // is 50% of container width
+    borderTopColor: 'gray',
+    borderTopWidth: 0.5,
   },
-  tableFirstColumn: {
-    flex: 4,
+  header: {
+    paddingVertical: 20,
+    width: '60%',
   },
-  tableSecondColumn: {
-    flex: 2,
+  valueheader: {
+    paddingVertical: 20,
+    width: '40%',
   },
-  datatext: {
-    color: 'blue'
-  }
-});
+  label: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    paddingVertical: 10,
+  },
+  
+})
 
 export default ObsnConfirmation;

@@ -52,9 +52,16 @@ function ScanScreen () {
     };
 
     const navigation = useNavigation();
+
+    // *** Test another Screen 10Feb22 ***///
     const onVitalSignPressed = () => {
         navigation.navigate('VitalSign');
     }
+
+    // const onVitalSignPressed = () => {
+    //     navigation.navigate('ObservationEntry');
+    // }
+
 
     const desccription = 'QR code (abbreviated from Quick Response Code) is the trademark for a type of matrix barcode (or two-dimensional barcode) first designed in 1994 for the automotive industry in Japan. A barcode is a machine-readable optical label that contains information about the item to which it is attached.'
     // // extra line to use ref in functional component

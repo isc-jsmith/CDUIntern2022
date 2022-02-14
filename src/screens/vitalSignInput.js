@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, Fragment} from 'react';
 import {View, Text, StyleSheet, ScrollView, MaskedViewComponent} from 'react-native';
 import CustomInput from '../components/CustomInput';
+import CustomInput2 from '../components/CustomInput2';
 import CustomButton from '../components/CustomButton';
 import CustomPicker from '../components/CustomPicker';
 import {useNavigation} from '@react-navigation/core';
@@ -17,6 +18,8 @@ const TEMPERATURE_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
 const BLOOD_GLUCOSE_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
 const PAIN_REGEX = /^[0-9]{1,2}[:.,-]?$/;
 const WEIGHT_REGEX = /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/;
+// alphanumeric but no special character
+const NOTE_REGEX = /^[ A-Za-z0-9_@./#&+-]*$/;
 
 
 // Reference Range
@@ -34,9 +37,10 @@ const OxygenLPMRange = [4, 12];
 const VitalSignInput = () => {
   const {control, handleSubmit, watch} = useForm();
   const navigation = useNavigation();
+  const [note, setNote] = useState(false);
 
-  const onScanAgainPressed = () => {
-    navigation.navigate('Scan');
+  const onNotePressed = () => {
+    setNote(true);
   }; 
 
 
@@ -49,7 +53,6 @@ const VitalSignInput = () => {
     });
     console.log(data);
   }
-
 
 
   return (
@@ -184,19 +187,23 @@ const VitalSignInput = () => {
             />
           </ScrollView>
         </View>
+
         
-        <CustomButton
-          text="Note"
-          onPress={onScanAgainPressed}
-          type="TERTIARY"
-        />
+        <CustomInput2
+          control={control} 
+          name="Note" 
+          placeholder="Note"
+          defaultValue={""}
+          rules={{
+            pattern: {value: NOTE_REGEX, message: 'Invalid Value'},
+          }}
+        /> 
 
         <CustomButton
           text="Update"
           // ***handleSubmit: receive FORM data
           onPress={handleSubmit(onUpdatePressed)}
         />
-
         
       </View>
     </ScrollView>
