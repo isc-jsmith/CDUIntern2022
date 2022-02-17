@@ -2,9 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import CustomDrawer from '../components/CustomDrawer';
-import Ionicons from 'react-native-vector-icons/Ionicons'
-
 import SignInScreen from '../screens/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from '../screens/ConfirmEmailScreen/ConfirmEmailScreen';
@@ -14,12 +11,13 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import AlertSettingScreen from '../screens/AlertSettingScreen/AlertSettingScreen';
 import AppDetailScreen from '../screens/AppDetailScreen/AppDetailScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen/ChangePasswordScreen';
-import SignOutScreen from '../screens/SignOutScreen/SignOutScreen';
-import VitalSignInputScreen from '../screens/VitalSignInputScreen/VitalSignInputScreen';
 
+
+import CustomDrawer from '../components/CustomDrawer';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import SignOutScreen from '../screens/SignOutScreen/SignOutScreen';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-
 
 const Navigation = () => {
     return (
@@ -32,12 +30,10 @@ const Navigation = () => {
                 <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
                 <Stack.Screen name="HomeScreen" component={DrawerRoutes} />
                 <Stack.Screen name="SignOutScreen" component={SignOutScreen} />
-                <Stack.Screen name="VitalSignInputScreen" component={VitalSignInputScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 };
-
 
 const DrawerRoutes=()=>{
     return (
@@ -80,4 +76,5 @@ const DrawerRoutes=()=>{
             </Drawer.Navigator>
     );
 }
+
 export default Navigation;

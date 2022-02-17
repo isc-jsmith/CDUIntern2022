@@ -1,22 +1,17 @@
-/**
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
-import ScanScreen from './src/screens/scanScreen';
-import Navigation from './src/navigation';
+import {
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
+
+import { LogBox } from 'react-native';
+import Navigation from './src/navigation/';
 
 
-
-
-
-// const App = () => {
-//   return (
-//     <ScanScreen />
-//   );
-// };
+//ignore warning as gesture handler installed in this project is the latest version
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
 
 
 const App = () => {
@@ -30,11 +25,8 @@ const App = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#F9FBFC',
+    backgroundColor:'F9FBFC',
   },
 });
-
-
-
 
 export default App;
