@@ -37,11 +37,7 @@ const OxygenLPMRange = [4, 12];
 const VitalSignInput = () => {
   const {control, handleSubmit, watch} = useForm();
   const navigation = useNavigation();
-  const [note, setNote] = useState(false);
 
-  const onNotePressed = () => {
-    setNote(true);
-  }; 
 
 
   // ***will send the data as a Json 
@@ -59,8 +55,8 @@ const VitalSignInput = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Observation Entry</Text>
-        <Text>Name: Marcus AGUIRRE</Text>
-        <Text>DOB: 04/07/1969 Age: 52y6mth30d</Text>
+        <Text>Name: Derk Frederic GRAHAM</Text>
+        <Text>DOB: 27/05/2000 Age: 21</Text>
         <Text></Text>
         {/* ***Just harcode time here. Once connected to TrakCare, can pull this info */}
         <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>

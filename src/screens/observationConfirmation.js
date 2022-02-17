@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, TextInput, MaskedViewComponent} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TextInput, MaskedViewComponent, Alert} from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomInput1 from '../components/CustomInput1';
 import CustomInput2 from '../components/CustomInput2';
@@ -7,7 +7,7 @@ import CustomPicker1 from '../components/CustomPicker1';
 import CustomButton from '../components/CustomButton';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
-import { DataTable, List } from 'react-native-paper';
+// import { DataTable, List } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const RESPIRATORY_RATE_REGEX = /^[0-9]{1,2}[:.,-]?$/;
@@ -45,7 +45,7 @@ const ObsnConfirmation = ({route}) => {
  
   const onUpdatePressed = (data) => {
     console.log(data);
-    alert("Vital Signs updated");
+    Alert.alert("Message", "Vital Signs updated");
   }; 
 
   // pass the param/ Function when navigate from 'Observation' to 'VitalSign'
@@ -56,7 +56,7 @@ const ObsnConfirmation = ({route}) => {
     });
   };
 
-  /* Use JSON.stringify to render Object */
+  /* Use JSON.stringify to render KSON string and then JSON.parse to return Object */
   // dataKey from Observation Screen
   const dataFromEntry = JSON.stringify(route.params.dataKey);
   const myObj = JSON.parse(dataFromEntry)
@@ -68,8 +68,8 @@ const ObsnConfirmation = ({route}) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Observation Confirmation</Text>
-        <Text>Name: Marcus AGUIRRE</Text>
-        <Text>DOB: 04/07/1969 Age: 52y6mth30d</Text>
+        <Text>Name: Derk Frederic GRAHAM</Text>
+        <Text>DOB: 27/05/2000 Age: 21</Text>
         <Text></Text>
         <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
         <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
@@ -236,7 +236,7 @@ const ObsnConfirmation = ({route}) => {
 
               <View style={styles.item}><Text style={styles.label}>Note</Text></View>
               <View style={styles.itemvalue}>
-                <CustomInput1
+                <CustomInput2
                   control={control} 
                   name="Note" 
                   defaultValue={myObj["Note"]}
