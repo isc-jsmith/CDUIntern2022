@@ -56,10 +56,14 @@ const ObsnConfirmation = ({route}) => {
     });
   };
 
-  /* Use JSON.stringify to render KSON string and then JSON.parse to return Object */
-  // dataKey from Observation Screen
+  
+  // *** dataKey from Observation Screen
+  /* Use JSON.stringify to render JSON string and then JSON.parse to return Object */
   const dataFromEntry = JSON.stringify(route.params.dataKey);
   const myObj = JSON.parse(dataFromEntry)
+  const patientInfo = route.params.patientInfo;
+  const lastObsTime = route.params.lastObsTime;
+  const age = route.params.age;
 
 
 
@@ -68,11 +72,11 @@ const ObsnConfirmation = ({route}) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Observation Confirmation</Text>
-        <Text>Name: Derk Frederic GRAHAM</Text>
-        <Text>DOB: 27/05/2000 Age: 21</Text>
-        <Text></Text>
+        <Text>Name:  {patientInfo.split(",")[1]}</Text>
+        <Text>DOB: {patientInfo.split(",")[0]}</Text>
+        <Text>Age: {age}</Text>
         <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
-        <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
+        <Text style={{alignSelf: 'flex-end'}}>Last Observation: {lastObsTime}</Text>
 
         <View style={{height: 480, padding:20, paddingBottom:30, width: "110%"}} >
           <ScrollView persistentScrollbar={true}>

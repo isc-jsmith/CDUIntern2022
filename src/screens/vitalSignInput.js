@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {View, Text, StyleSheet, ScrollView, MaskedViewComponent} from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomInput2 from '../components/CustomInput2';
@@ -34,9 +34,15 @@ const OxygenLPMRange = [4, 12];
 
 
 
-const VitalSignInput = () => {
+const VitalSignInput = ({route}) => {
   const {control, handleSubmit, watch} = useForm();
   const navigation = useNavigation();
+  const [age, setAge] = useState('');
+
+
+  useEffect(() => {
+    getAge();
+  });
 
 
 
@@ -45,34 +51,49 @@ const VitalSignInput = () => {
   // ***params-route: https://reactnavigation.org/docs/params/
   const onUpdatePressed = (data) => {
 		navigation.navigate('ObsnConfirmation', {
-      dataKey : data
+      dataKey : data,
+      patientInfo : patientInfo,
+      lastObsTime : lastObsTime,
+      age : age,
+      
     });
     console.log(data);
   }
+
+  //*** handle Data passed from ScanScreen
+  const patientInfo = route.params.patientInfo;
+  const lastObsTime = route.params.lastObsTime;
+
+
+    // *** Calculate Age ***///
+  const getAge = () => {
+    var oldDOBFormat =  patientInfo.split(",")[0]
+    var oldItems = oldDOBFormat.split("/");
+    var dateString = oldItems[2]+'-'+oldItems[1]+'-'+oldItems[0];
+    console.log(dateString);
+    //var dateString = '1994-06-14';
+    var ageInMilliseconds = new Date() - new Date(dateString);
+    var age = Math.floor(ageInMilliseconds/1000/60/60/24/365 ); // convert to years 
+    setAge(age);
+    console.log('Age: ' + age);
+  }
+
 
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
         <Text style={styles.title}>Observation Entry</Text>
-        <Text>Name: Derk Frederic GRAHAM</Text>
-        <Text>DOB: 27/05/2000 Age: 21</Text>
-        <Text></Text>
-        {/* ***Just harcode time here. Once connected to TrakCare, can pull this info */}
+        <Text>Name: {patientInfo.split(",")[1]}</Text>
+        <Text>DOB: {patientInfo.split(",")[0]}</Text>
+        <Text>Age: {age}</Text>
+        {/* ***Just harcode Icon here. Once connected to TrakCare, can pull this icon info */}
         <Text style={{alignSelf: 'flex-end'}}><Icon name="man-outline" size={23} color="#13a5a3"/></Text>
-        <Text style={{alignSelf: 'flex-end'}}>Last Observation: {new Date().toLocaleTimeString()} - {new Date().toLocaleDateString()}</Text>
+        <Text style={{alignSelf: 'flex-end'}}>Last Observation: {lastObsTime}</Text>
 
         <View style={{height: 430, padding:20, width: "110%"}} >
           <ScrollView persistentScrollbar={true}>
             
-            {/* <DropDownMenu 
-              name="Consciousnes"
-              itemList={[{label:"Select", value: ""},
-                        {label:"Level1" ,value: "Level1"},
-                        {label:"Level2" ,value: "Level2"},
-                        {label:"Level3" ,value: "Level3"}]}
-            /> */}
-
             <CustomPicker
               name="Consciousness"
               control={control}

@@ -56,7 +56,10 @@ function ScanScreen () {
     const navigation = useNavigation();
     // *** Test another Screen 10Feb22 ***///
     const onVitalSignPressed = () => {
-        navigation.navigate('VitalSign');
+        navigation.navigate('VitalSign', {
+            patientInfo: result.data,
+            lastObsTime: lastObsTime.split("+")[0],
+        });
     }
 
     // *** to skip Require cycle warning ***//
@@ -96,14 +99,8 @@ function ScanScreen () {
         .then(response => response.text())
         .then(string => JSON.parse(string))
         .then(obj => {
-            // console.log(obj)
-            // console.log(obj["entry"])
-            // var firstSet = (obj["entry"])[0]
-            // var resource = firstSet["resource"]
-            // console.log(resource["effectiveDateTime"])
-            console.log("last Obs Time")
             var lastObsTime = (((obj["entry"])[0])["resource"])["effectiveDateTime"]
-            console.log(lastObsTime)
+            console.log("last Obs Time: " + lastObsTime)
             setLastObsTime(lastObsTime)
         })
         .catch(error => console.log('error', error));
