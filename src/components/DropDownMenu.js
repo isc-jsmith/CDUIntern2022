@@ -9,9 +9,11 @@ const DropDownMenu = ({
     }) => {
     const [Enable , setEnable]  = useState("");
 
+
+
     const renderItemList = () => {
-        return itemList.map((item) => {
-            return <Picker.Item label={item.label} value={item.value} />
+        return itemList.map((item, key) => {
+            return <Picker.Item key = {item} label={item.label} value={item.value} />
         })
     }
     
@@ -22,11 +24,8 @@ const DropDownMenu = ({
                 selectedValue={Enable}
                 // style={{ height: 50, width: 250 }}
                 mode={"dialog"}
-                onValueChange={(itemValue) => setEnable(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {setEnable(itemValue), console.log(itemValue, itemIndex)}}
             >
-                {/* <Picker.Item label="A" value="A" />
-                <Picker.Item label="B" value="B" />
-                <Picker.Item label="C" value="C" /> */}
                 {renderItemList()}
             </Picker>
         </View>

@@ -2,19 +2,18 @@ import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {Controller} from 'react-hook-form';
 
-const CustomInput = ({
+const CustomInput1 = ({
   control,
   name,
-  defaultValue,
   rules = {},
-  placeholder,
-  secureTextEntry,
+  defaultValue,
   referenceRange = [],
 }) => {
   return (
     <Controller
       control={control}
       name={name}
+      // // *** to populate in Confirmation screen***
       defaultValue = {defaultValue}
       rules={rules}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
@@ -24,17 +23,13 @@ const CustomInput = ({
               styles.container,
               {borderColor: error ? 'red' : '#e8e8e8'},
             ]}>
-            <Text style={{fontWeight: 'bold', fontSize: 16}}>{name}</Text>
             <TextInput
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder={placeholder}
-              defaultValue  ={defaultValue}
-              // style accroding to if value in referenceRange
-              // style={(value == 0 || value == null || (value >= referenceRange[0] && value <= referenceRange[1])) ? styles.input : styles.inputOutRange}
+              defaultValue={defaultValue}
+              // ***style accroding to if value in referenceRange
               style={(value < referenceRange[0] || value > referenceRange[1]) ? styles.inputOutRange : styles.input}
-              secureTextEntry={secureTextEntry}
               keyboardType = 'numeric'
             />
           </View>
@@ -49,25 +44,18 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '100%',
-
-    // borderColor: '#e8e8e8',
-    borderColor: '#blue',
-    borderWidth: 3,
-    borderRadius: 5,
-
-    paddingHorizontal: 10,
-    marginVertical: 15,
   },
   input: {
     color: "blue",
+    paddingLeft: 18,
   },
 
   inputOutRange:{
     // backgroundColor: "#f7eb07",
     color: "red",
+    paddingLeft: 18,
   }
 });
 
-export default CustomInput;
+export default CustomInput1;

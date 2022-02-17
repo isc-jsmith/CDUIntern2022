@@ -2,19 +2,19 @@ import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {Controller} from 'react-hook-form';
 
-const CustomInput = ({
+const CustomInput2 = ({
   control,
   name,
-  defaultValue,
   rules = {},
   placeholder,
-  secureTextEntry,
-  referenceRange = [],
+  defaultValue,
+  // referenceRange = [],
 }) => {
   return (
     <Controller
       control={control}
       name={name}
+      // // *** to populate in Confirmation screen***
       defaultValue = {defaultValue}
       rules={rules}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
@@ -24,18 +24,16 @@ const CustomInput = ({
               styles.container,
               {borderColor: error ? 'red' : '#e8e8e8'},
             ]}>
-            <Text style={{fontWeight: 'bold', fontSize: 16}}>{name}</Text>
             <TextInput
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
-              defaultValue  ={defaultValue}
-              // style accroding to if value in referenceRange
-              // style={(value == 0 || value == null || (value >= referenceRange[0] && value <= referenceRange[1])) ? styles.input : styles.inputOutRange}
-              style={(value < referenceRange[0] || value > referenceRange[1]) ? styles.inputOutRange : styles.input}
-              secureTextEntry={secureTextEntry}
-              keyboardType = 'numeric'
+              defaultValue={defaultValue}
+              style= {styles.center}
+              // ***style accroding to if value in referenceRange
+              // style={(value < referenceRange[0] || value > referenceRange[1]) ? styles.inputOutRange : styles.input}
+              // keyboardType = 'numeric'
             />
           </View>
           {error && (
@@ -49,16 +47,13 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '100%',
-
-    // borderColor: '#e8e8e8',
-    borderColor: '#blue',
-    borderWidth: 3,
-    borderRadius: 5,
+    // backgroundColor: 'white',
+    // borderWidth: 3,
+    // borderRadius: 5,
 
     paddingHorizontal: 10,
-    marginVertical: 15,
+    // marginVertical: 15,
   },
   input: {
     color: "blue",
@@ -67,7 +62,10 @@ const styles = StyleSheet.create({
   inputOutRange:{
     // backgroundColor: "#f7eb07",
     color: "red",
+  },
+  center: {
+    alignItems:'center',
   }
 });
 
-export default CustomInput;
+export default CustomInput2;

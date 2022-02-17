@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScanScreen from '../screens/scanScreen';
+import ObservationEntry from '../screens/observationEntry';
 import VitalSignInput from '../screens/vitalSignInput';
 import ObsnConfirmation from '../screens/observationConfirmation';
 
