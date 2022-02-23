@@ -38,7 +38,7 @@ const CustomPicker1 = ({
                             // ***Before: update state locally
                             // onValueChange={(itemValue, itemIndex) => {setEnable(itemValue), console.log(itemValue, itemIndex), onChange(itemValue)}}
                            
-                            onValueChange={(itemValue, itemIndex) => { onChange(itemValue), console.log(itemValue, itemIndex)}}
+                            onValueChange={(itemValue, itemIndex) => { onChange(itemValue)}}
                             //style={{ height: 54, marginTop: 10 }}
                         >
                             {renderItemList()}
@@ -58,16 +58,17 @@ const CustomPicker1 = ({
 
 const styles = StyleSheet.create({
     container: {
-    //   backgroundColor: 'yellow',
+      backgroundColor: 'white',
       width: '100%',
+      height: '82%',
       alignSelf: "flex-start",
       // borderColor: '#e8e8e8',
     //   borderColor: '#blue',
     //   borderWidth: 3,
-    //   borderRadius: 5,
+    borderRadius: 5,
   
     //   paddingHorizontal: 10,
-    //   marginVertical: 15,
+    marginVertical: 3,
     },
   });
   

@@ -32,7 +32,7 @@ const CustomPicker = ({
                             mode={"dropdown"}
                             // ***Before: update state locally
                             // onValueChange={(itemValue, itemIndex) => {setEnable(itemValue), console.log(itemValue, itemIndex), onChange(itemValue)}}
-                            onValueChange={(itemValue, itemIndex) => { onChange(itemValue), console.log(itemValue, itemIndex)}}
+                            onValueChange={(itemValue, itemIndex) => { onChange(itemValue)}}
                             //style={{ height: 54, marginTop: 10 }}
                         >
                             {renderItemList()}
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
   
       // borderColor: '#e8e8e8',
       borderColor: '#blue',
-      borderWidth: 3,
+      borderWidth: 1,
       borderRadius: 5,
   
       paddingHorizontal: 10,
-      marginVertical: 15,
+      marginVertical: 5,
     },
   });
   

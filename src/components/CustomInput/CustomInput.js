@@ -28,7 +28,7 @@ const CustomInput = ({
                             { borderColor: error ? 'red' : '#e8e8e8' },
                         ]}>
                         {showName && (
-                            <Text>{showName}</Text>
+                            <Text style={{fontWeight:'bold'}}>{showName}</Text>
                         )}
                         <TextInput
                             autoFocus={autoFocus}
@@ -63,7 +63,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 5,
     },
-    input: {},
+    input: {color:'blue'},
+    inputOutRange: {
+        // backgroundColor: "#f7eb07",
+        color: "red",
+    }
 });
 
 export default CustomInput;
