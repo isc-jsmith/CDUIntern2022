@@ -71,7 +71,7 @@ const VitalSignInput = ({ route }) => {
 			redirect: 'follow'
 		};
 
-		// *** Need to input the current local IP address ***//
+		// *** Temporarily: Need to input the current local IP address ***//
 		fetch(
 			'http://172.19.42.127:52773/tcfhir/trakr4/Observation/$lastn?max=1&patient=Patient/' +
 				patientId +
@@ -82,19 +82,13 @@ const VitalSignInput = ({ route }) => {
 			.then((string) => JSON.parse(string))
 			.then((obj) => {
 				//console.log(obj)
-				// console.log(obj["entry"])
-				// var firstSet = (obj["entry"])[0]
-				// var resource = firstSet["resource"]
-				// console.log(resource["effectiveDateTime"])
-				// console.log("last Obs Time")
 				var lastObsTime = obj['entry'][0]['resource']['effectiveDateTime'];
 				var encounterID = obj['entry'][0]['resource']['extension'][1]['valueString'];
-				//console.log(encounterID);
 				setLastObsTime(lastObsTime);
 				setEncounterID(encounterID);
 			})
 			.catch((error) => {
-				//console.log('error', error)
+				console.log('error', error)
 			});
 	};
 	const PatientRead = (PatientId) => {
@@ -117,9 +111,7 @@ const VitalSignInput = ({ route }) => {
 			})
 			//If response is not in json then in error
 			.catch((error) => {
-				//Error
-				// alert(JSON.stringify(error));
-				//console.error(JSON.stringify(error));
+				console.error(JSON.stringify(error));
 			});
 	};
 
@@ -130,6 +122,8 @@ const VitalSignInput = ({ route }) => {
 	};
 
 	return (
+
+		// *** to avoid keyboard cover input field *** ///
 		<KeyboardAvoidingView
 			style={{flex:1}}
 			behavior="height"
@@ -144,54 +138,26 @@ const VitalSignInput = ({ route }) => {
 					borderTopWidth: height * 0.04
 				}}
 			>
-				<Text
-					style={{
-						flex: 1,
-						textAlign: 'left',
-						fontSize: 16,
-						color: 'gray',
-						padding: 10
-					}}
-				>
+				<Text style={styles.sceenTitle}>
 					Observation Entry
 				</Text>
-
+				
+				{/* *** Close button *** */}
 				<TouchableOpacity
-					style={{
-						flex: 1,
-						textAlign: 'right',
-						alignItems: 'flex-end',
-						padding: 5
-					}}
+					style={styles.closeButton}
 					onPress={() =>
 						navigation.reset({
 							index: 0,
-							routes: [
-								{
-									name: 'HomeScreen'
-								}
-							]
-						})}
+							routes: [{name: 'HomeScreen'}]
+						})
+					}
 				>
 					<Icon name="close" style={{ backgroundColor: 'brown', borderRadius: 8 }} size={30} color={'#FFF'} />
 				</TouchableOpacity>
 			</View>
-			<SafeAreaView
-				style={{
-					alignItems: 'center',
-					paddingRight: 10,
-					borderTopColor: '#678cf8'
-				}}
-			>
-				<Text
-					style={{
-						fontSize: 18,
-						fontWeight: 'bold',
-						color: '#051C60'
-					}}
-				>
-					Patient's Information
-				</Text>
+
+			<SafeAreaView style={styles.banner}>
+				<Text style={styles.title}>Patient's Information</Text>
 				<Text>Name: {PatientName}</Text>
 				<Text>
 					DOB: {PatientDOB} Age: {PatientAge}
@@ -364,7 +330,6 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		fontWeight: 'bold',
-		textDecorationLine: 'underline',
 		color: '#051C60',
 		paddingBottom: 5
 	},
@@ -378,7 +343,25 @@ const styles = StyleSheet.create({
 	textRight: {
 		color: 'gray',
 		textAlign: 'right'
-	}
+	},
+	sceenTitle:{
+		flex: 1,
+		textAlign: 'left',
+		fontSize: 16,
+		color: 'gray',
+		padding: 10
+	},
+	closeButton:{
+		flex: 1,
+		textAlign: 'right',
+		alignItems: 'flex-end',
+		padding: 5
+	},
+	banner:{
+		alignItems: 'center',
+		paddingRight: 10,
+		borderTopColor: '#678cf8'
+	},
 });
 
 export default VitalSignInput;

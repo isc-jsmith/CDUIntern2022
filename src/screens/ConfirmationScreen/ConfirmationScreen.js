@@ -4,13 +4,9 @@ import {
 	Text,
 	StyleSheet,
 	ScrollView,
-	MaskedViewComponent,
-	Alert,
 	SafeAreaView,
 	TouchableOpacity,
 	Dimensions,
-	ToastAndroid,
-	moment,
 	KeyboardAvoidingView,
 } from 'react-native';
 import CustomInput from '../../components/CustomInput/CustomInput';
@@ -48,13 +44,14 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const ConfirmationScreen = ({ route }) => {
 	const [ currentDate, setCurrentDate ] = useState('');
-	const dataKey = route.params.dataKey;
-	//console.log(dataKey);
+	const { control, handleSubmit, watch, formState: { errors } } = useForm();
+	const navigation = useNavigation();
+
+	// *** data from prvious screen *** //
 	const PatientName = route.params.PatientName;
 	const PatientId = route.params.PatientId;
 	const encounterID = route.params.encounterID;
-	const { control, handleSubmit, watch, formState: { errors } } = useForm();
-	const navigation = useNavigation();
+	//console.log(dataKey);
 	const dataFromEntry = JSON.stringify(route.params.dataKey);
 	const myObj = JSON.parse(dataFromEntry);
 
@@ -72,10 +69,15 @@ const ConfirmationScreen = ({ route }) => {
 		setCurrentDate(
 			year + '-' + n(month) + '-' + n(date) + 'T' + n(hours) + ':' + n(min) + ':' + n(sec) + '.000+09:30'
 		);
+		console.log("effectiveDateTime: "+ currentDate);
 	};
 
-	const postToServer = (dynamicData, displayName, code) => {
+	useEffect(() => {
 		getCurrentTime();
+	});
+
+	const postToServer = (dynamicData, displayName, code) => {
+		// getCurrentTime();
 		const requestOptions = {
 			method: 'POST',
 			headers: {
@@ -172,29 +174,23 @@ const ConfirmationScreen = ({ route }) => {
 		data = e;
 		const dataFromEntry = JSON.stringify(data);
 		const objToPost = JSON.parse(dataFromEntry);
-		getCurrentTime();
+		// getCurrentTime();
 		// var temperatureResponse = objToPost['Temperature (°C)']
 		// 	? postToServer(objToPost['Temperature (°C)'], 'Temperature', 'VS5')
 		// 	: '';
+
+		// *** testing: send Weight/ Temp *** //
 		var weightresponse = postToServer(objToPost['Weight (kg)'], 'weight', 'weight');
 		var temperatureResponse = postToServer(objToPost['Temperature (°C)'], 'Temperature', 'VS5');
+		
 		Toast.show('Data Updated Successfully.');
-
 		await delay(3000);
+		// *** go back to Scanning screen *** //
 		navigation.reset({
 			index: 0,
-			routes: [
-				{
+			routes: [{
 					name: 'HomeScreen'
-				}
-			]
-		});
-	};
-
-	const onEditPressed = () => {
-		navigation.navigate('VitalSign', {
-			functionKey: console.log(' function from Ocallbs'),
-			otherFunctionKey: console.log('another funct from Obs')
+				}]
 		});
 	};
 
@@ -213,48 +209,26 @@ const ConfirmationScreen = ({ route }) => {
 					borderTopWidth: height * 0.04
 				}}
 			>
-				<Text
-					style={{
-						flex: 1,
-						textAlign: 'left',
-						fontSize: 16,
-						color: 'gray',
-						padding: 10
-					}}
-				>
+				<Text style={styles.sceenTitle}>
 					Confirmation Screen
 				</Text>
-
+				
+				{/* *** Close button *** */}
 				<TouchableOpacity
-					style={{
-						flex: 1,
-						textAlign: 'right',
-						alignItems: 'flex-end',
-						padding: 5
-					}}
+					style={styles.closeButton}
 					onPress={() => navigation.goBack()}
 				>
 					<Icon name="close" style={{ backgroundColor: 'brown', borderRadius: 8 }} size={30} color={'#FFF'} />
 				</TouchableOpacity>
 			</View>
-			<SafeAreaView
-				style={{
-					alignItems: 'center',
-					paddingRight: 10,
-					borderTopColor: '#678cf8'
-				}}
-			>
+
+			<SafeAreaView style={styles.banner}>
 				<Text style={styles.title}>Observation Confirmation</Text>
-				<Text
-					style={{
-						fontSize: 16,
-						fontWeight: 'bold',
-						color: '#051C60'
-					}}
-				>
+				<Text style={{fontSize: 16,fontWeight: 'bold',color: '#051C60'}}>
 					Name: {PatientName}
 				</Text>
 			</SafeAreaView>
+
 			{/* <ScrollView showsVerticalScrollIndicator={false}> */}
 				<View style={styles.root}>
 					<View style={{ height: height * 0.63, paddingBottom: 30, width: '100%' }}>
@@ -266,14 +240,7 @@ const ConfirmationScreen = ({ route }) => {
 									</Text>
 								</View>
 								<View style={[ styles.valueheader ]}>
-									<Text
-										style={{
-											fontStyle: 'italic',
-											fontWeight: 'bold',
-											fontSize: 16,
-											paddingLeft: 15
-										}}
-									>
+									<Text style={{fontStyle: 'italic', fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>
 										Value
 									</Text>
 								</View>
@@ -490,6 +457,7 @@ const ConfirmationScreen = ({ route }) => {
 					</View>
 
 					<CustomButton text="Confirm" onPress={handleSubmit(onUpdatePressed)} />
+					
 				</View>
 			{/* </ScrollView> */}
 		</SafeAreaView>
@@ -504,7 +472,7 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	title: {
-		fontSize: 24,
+		fontSize: 20,
 		fontWeight: 'bold',
 		color: '#051C60',
 		margin: 10
@@ -543,6 +511,24 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 14,
 		paddingVertical: 15
-	}
+	},
+	sceenTitle:{
+		flex: 1,
+		textAlign: 'left',
+		fontSize: 16,
+		color: 'gray',
+		padding: 10
+	},
+	closeButton:{
+		flex: 1,
+		textAlign: 'right',
+		alignItems: 'flex-end',
+		padding: 5
+	},
+	banner:{
+		alignItems: 'center',
+		paddingRight: 10,
+		borderTopColor: '#678cf8'
+	},
 });
 export default ConfirmationScreen;
