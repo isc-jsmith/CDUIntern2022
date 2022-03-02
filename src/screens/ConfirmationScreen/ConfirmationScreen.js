@@ -55,6 +55,7 @@ const ConfirmationScreen = ({ route }) => {
 	const dataFromEntry = JSON.stringify(route.params.dataKey);
 	const myObj = JSON.parse(dataFromEntry);
 
+	// *** format the time as 01/11/21...
 	const n = (n) => {
 		return n > 9 ? '' + n : '0' + n;
 	};
@@ -76,6 +77,7 @@ const ConfirmationScreen = ({ route }) => {
 		getCurrentTime();
 	});
 
+	//*** POST DATA TO ITK/TrakCare */
 	const postToServer = (dynamicData, displayName, code) => {
 		// getCurrentTime();
 		const requestOptions = {
