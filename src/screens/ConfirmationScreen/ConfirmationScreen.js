@@ -84,8 +84,7 @@ const ConfirmationScreen = ({ route }) => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/fhir+json',
-				Accept: 'application/json',
-				Authorization: 'Basic c3VwZXJ1c2VyOnBhc3N3b3Jk'
+				Accept: 'application/json'
 			},
 			body: JSON.stringify({
 				resourceType: 'Bundle',

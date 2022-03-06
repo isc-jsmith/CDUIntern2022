@@ -63,7 +63,6 @@ const VitalSignInput = ({ route }) => {
 	const getLastObs = (PatientId) => {
 		var myHeaders = new Headers();
 		myHeaders.append('Accept', 'application/fhir+json; charset=UTF-8');
-		myHeaders.append('Authorization', 'Basic c3VwZXJ1c2VyOnBhc3N3b3Jk');
 		const patientId = PatientId;
 		var requestOptions = {
 			method: 'GET',
@@ -94,7 +93,6 @@ const VitalSignInput = ({ route }) => {
 	const PatientRead = (PatientId) => {
 		//console.log(PatientId);
 		var myHeaders = new Headers();
-		myHeaders.append('Authorization', 'Basic c3VwZXJ1c2VyOnBhc3N3b3Jk');
 		fetch('http://172.19.42.127:52773/tcfhir/trakr4/Patient/' + PatientId + '?_format=json', {
 			method: 'GET',
 			headers: myHeaders
